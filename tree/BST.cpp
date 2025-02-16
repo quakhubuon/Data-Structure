@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 struct Node {
@@ -27,6 +28,15 @@ struct Node *InsertNode (Node *root, int n)
     return root;
 }
 
+struct Node *copy (Node *root) {
+    if (root == NULL) 
+        return NULL;
+    Node *newTree = createNode(root->indexdata);
+    newTree->left = copy(root->left);
+    newTree->right = copy(root->right);
+    return newTree;
+}
+
 struct Node *minValue(struct Node *root)
 {
     Node *cur = root;
@@ -36,6 +46,7 @@ struct Node *minValue(struct Node *root)
     }
     return cur;
 }
+
 struct Node *deleteNode(struct Node *root, int data)
 {
     if(root == NULL)
@@ -120,6 +131,36 @@ void printRNL (Node *root)
 	}	
 }
 
+bool SNT (int n) 
+{ 
+    if (n < 2)  
+    { 
+        return false; 
+    } 
+    else  
+    { 
+        for (int i = 2;i <= sqrt(n); i++) 
+        { 
+            if (n % i == 0) 
+            return false; 
+        } 
+    } 
+        return true; 
+}
+
+int  demsonguyento (Node *root) {
+    int count = 0;
+    if (root == NULL) {
+        return 0;
+    }
+    if (SNT(root->indexdata)) {
+        count++;
+    }
+    count += demsonguyento(root->left);
+    count += demsonguyento(root->right);
+    return count;
+}
+
 int main ()
 {
     Node *t = NULL;
@@ -133,6 +174,13 @@ int main ()
     t = InsertNode (t, 20);
     printLNR (t);
     cout <<endl;
+
+    cout <<"So nguyen to trong cay la: " << demsonguyento(t) << endl;
+
+    Node *newTree = NULL;
+    newTree = copy(t);
+    cout <<"Cay newTree la: ";
+    printLNR (newTree);
 
     //deleteNode (t, 8);
     //printLNR (t);
@@ -155,4 +203,5 @@ int main ()
     
     //cout<<"RNL: ";
     //printRNL(t);
+    return 0;
 }
