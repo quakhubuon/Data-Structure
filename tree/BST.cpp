@@ -28,15 +28,6 @@ struct Node *InsertNode (Node *root, int n)
     return root;
 }
 
-struct Node *copy (Node *root) {
-    if (root == NULL) 
-        return NULL;
-    Node *newTree = createNode(root->indexdata);
-    newTree->left = copy(root->left);
-    newTree->right = copy(root->right);
-    return newTree;
-}
-
 struct Node *minValue(struct Node *root)
 {
     Node *cur = root;
@@ -161,6 +152,26 @@ int  demsonguyento (Node *root) {
     return count;
 }
 
+struct Node *copy (Node *root) {
+    if (root == NULL) 
+        return NULL;
+    Node *newTree = createNode(root->indexdata);
+    newTree->left = copy(root->left);
+    newTree->right = copy(root->right);
+    return newTree;
+}
+
+int numLeafNodes(Node* root) {
+    int count = 0;
+    if (root == NULL)
+        return 0;
+    if (root->left == NULL && root->right == NULL)
+        count++;
+    count += numLeafNodes(root->left);
+    count += numLeafNodes(root->right);
+    return count;
+}
+
 int main ()
 {
     Node *t = NULL;
@@ -181,7 +192,9 @@ int main ()
     newTree = copy(t);
     cout <<"Cay newTree la: ";
     printLNR (newTree);
-
+    cout <<endl;
+    cout <<"So node la trong cay: " << numLeafNodes(t);
+    
     //deleteNode (t, 8);
     //printLNR (t);
     //Node *f = findNode(t, 1);
