@@ -172,6 +172,17 @@ int numLeafNodes(Node* root) {
     return count;
 }
 
+int BSTsmallcount(Node* root, int key) {
+    int count = 0;
+    if (root == NULL) 
+        return 0;
+    if (root->indexdata < key)
+        count++;
+    count += BSTsmallcount(root->left, key);
+    count += BSTsmallcount(root->right, key);
+    return count;
+}
+
 int main ()
 {
     Node *t = NULL;
@@ -193,7 +204,7 @@ int main ()
     cout <<"Cay newTree la: ";
     printLNR (newTree);
     cout <<endl;
-    cout <<"So node la trong cay: " << numLeafNodes(t);
+    cout <<"So node la trong cay: " << numLeafNodes(t) << endl;
     
     //deleteNode (t, 8);
     //printLNR (t);
